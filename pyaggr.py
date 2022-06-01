@@ -15,23 +15,16 @@ try:
 
     # The Aggregation Pipeline is defined as an array of different operations
     # Match title = "A Star Is Born":
-    stage_match_title = {
-    "$match": {
-            "title": "A Star Is Born"
-    }
-    }
+    stage_match_title = {"$match": {"title": "A Star Is Born"}}
 
     # Sort by year, ascending:
-    stage_sort_year_ascending = {
-    "$sort": { "year": pymongo.ASCENDING }
-    }
+    stage_sort_year_ascending = {"$sort": { "year": pymongo.ASCENDING }}
 
     # Now the pipeline is easier to read:
-    pipeline = [
-    stage_match_title, 
-    stage_sort_year_ascending,
-    ]
+    pipeline = [stage_match_title,stage_sort_year_ascending,]
+
     results = movie_collection.aggregate(pipeline)
+
     for movie in results:
         print(" * {title}, {first_castmember}, {year}".format(
                 title=movie["title"],
