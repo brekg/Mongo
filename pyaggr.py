@@ -14,14 +14,21 @@ try:
     movie_collection = db["movies"]
 
     # The Aggregation Pipeline is defined as an array of different operations
+
+    # Limit to 100 document for development only:
+    stage_limit_100 = { "$limit": 100}
+
     # Match title = "A Star Is Born":
     stage_match_title = {"$match": {"title": "A Star Is Born"}}
 
     # Sort by year, ascending:
     stage_sort_year_ascending = {"$sort": { "year": pymongo.ASCENDING }}
 
+    # Limit to 1 document:
+    stage_limit_1 = { "$limit": 1 }
+
     # Now the pipeline is easier to read:
-    pipeline = [stage_match_title,stage_sort_year_ascending,]
+    pipeline = [stage_limit_100,stage_match_title,stage_sort_year_ascending,stage_limit_1]
 
     results = movie_collection.aggregate(pipeline)
 
