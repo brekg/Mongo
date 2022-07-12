@@ -1,3 +1,4 @@
+from matplotlib.pyplot import box
 from pymongo import MongoClient
 from pandas import DataFrame
 import pprint
@@ -13,13 +14,12 @@ def main():
         client = MongoClient(atlas_connection)
         database = client['test']
 
-        results = database.counties.find({"name":"Jefferson"})
-        
-        list_cur = list(results)
+        for doc in database.riverGuage.find({"location": {$geoWithin: "$centerSphere": [-90.3729,38.4537]}}).limit(3):pprint.pprint(doc)
+        #river_gauge_cur = list(river_gauge)
 
-        database.riverGuage.find({location: {$geoWithin: {$geometry: {type: 'Polygon', coordinates: '$list_cur.location.coordinates'}}}}).count()
 
-    except Exception as e:
+
+    except Exception as e:        
         print("An exception occurred ::", e)
 
     finally:
