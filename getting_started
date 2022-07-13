@@ -6,5 +6,5 @@ client = MongoClient("mongodb+srv://m001-student:m001-mongodb-basics@sandbox.zln
 db = client['sample_airbnb']
 listingsAndReviews = db['listingsAndReviews']
 
-for doc in listingsAndReviews.find({"address.country_code":"US"},projection={'_id': 0, 'name':1, 'address.location.coordinates': 1}):
+for doc in listingsAndReviews.find({"address.country_code":"US"},projection={'_id': 0, 'name':1, 'address.location.coordinates': 1},limit=10):
    print(doc)
