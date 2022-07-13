@@ -1,0 +1,27 @@
+import pymongo
+import pprint
+
+
+def main():
+    # Call one of the outside functions
+    try:
+
+        cluster_uri = "mongodb+srv://m001-student:m001-mongodb-basics@sandbox.zlntu.mongodb.net/sample_airbnb?authSource=admin&replicaSet=atlas-mqtc1h-shard-0&readPreference=primary"
+        client = pymongo.MongoClient(cluster_uri)
+
+        # sample Database
+        db = client['listingsAndReviews']
+
+        for doc in listingsAndReviews.find({"address.country_code":"US"}):
+            pprint.pprint(doc)
+
+    except Exception as e:
+        print("An exception occurred ::", e)
+
+    finally:
+        client.close()
+
+
+# The conditional stays with main
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,10 @@
+import datetime   # This will be needed later
+import os
+from pymongo import MongoClient
+
+client = MongoClient("mongodb+srv://m001-student:m001-mongodb-basics@sandbox.zlntu.mongodb.net/sample_airbnb?authSource=admin&replicaSet=atlas-mqtc1h-shard-0&readPreference=primary")
+db = client['sample_airbnb']
+listingsAndReviews = db['listingsAndReviews']
+
+for doc in listingsAndReviews.find({"address.country_code":"US"},projection={'_id': 0, 'name':1, 'address.location.coordinates': 1}):
+   print(doc)
