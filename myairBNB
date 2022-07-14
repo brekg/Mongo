@@ -1,10 +1,28 @@
-import datetime   # This will be needed later
-import os
-from pymongo import MongoClient
+import pymongo
+import pprint
+from bson.son import SON
 
-client = MongoClient("mongodb+srv://m001-student:m001-mongodb-basics@sandbox.zlntu.mongodb.net/sample_airbnb?authSource=admin&replicaSet=atlas-mqtc1h-shard-0&readPreference=primary")
-db = client['sample_airbnb']
-listingsAndReviews = db['listingsAndReviews']
 
-for doc in listingsAndReviews.find({"address.country_code":"US"},projection={'_id': 0, 'name':1, 'address.location.coordinates': 1},limit=10):
-   print(doc)
+def main():
+    # Call one of the outside functions
+    try:
+
+      cluster_uri = "mongodb+srv://m001-student:m001-mongodb-basics@sandbox.zlntu.mongodb.net/?authSource=admin&replicaSet=atlas-mqtc1h-shard-0&readPreference=primary"
+      client = pymongo.MongoClient(cluster_uri)
+
+      # sample Database
+      db = client['sample_airbnb']
+      #query = {"loc": SON([("$near", [3, 6]), ("$maxDistance", 100)])}
+      for doc in db.listingsAndReviews.find({"address.location": {"$nearSphere": [-74.00, 40.00]}},{"_id": 0, "name": 1}).limit(10):
+         pprint.pprint(doc)  
+
+    except Exception as e:
+        print("An exception occurred ::", e)
+
+    finally:
+        client.close()
+
+
+# The conditional stays with main
+if __name__ == "__main__":
+    main()
