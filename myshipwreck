@@ -12,10 +12,7 @@ def main():
         # sample Database
         db = client['sample_geospatial']
 
-        # sample Collection
-        #shipwrecks = db['shipwrecks']
-        #db.shipwrecks.create_index([("coordinates", GEO2D)])
-        for doc in db.shipwrecks.find({"coordinates": {"$nearSphere": [-79.9074173, 9.3560572]}}).limit(10):
+        for doc in db.shipwrecks.find({"coordinates": {"$nearSphere": [-74.00, 40.00]}}).limit(10):
             pprint.pprint(doc)  
 
     except Exception as e:
